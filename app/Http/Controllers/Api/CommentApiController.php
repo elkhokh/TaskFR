@@ -40,9 +40,7 @@ class CommentApiController extends Controller
     public function destroyComment(Comments $comment)
     {
         try {
-            if (Auth::id() !== $comment->user_id) {
-                return ApiResponse::error("can not delete the comment", [], 500);
-            }
+            $this->authorize('delete', $comment);
             $comment->delete();
             return ApiResponse::success(new CommentsResource($comment), "comment deleted successfully", 200);
         } catch (\Throwable $th) {
@@ -54,9 +52,7 @@ class CommentApiController extends Controller
     public function updateComment(Request $request, Comments $comment)
     {
         try {
-            if (Auth::id() !== $comment->user_id) {
-                return ApiResponse::error("can not edit the comment", [], 500);
-            }
+            $this->authorize('update', $comment);
             $request->validate([
                 'content' => 'required|string|max:1000',
             ]);

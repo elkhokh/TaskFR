@@ -94,6 +94,7 @@ class PostController extends Controller
     {
         $data = $request->validated();
         try {
+            $this->authorize('update', $post);
             $post = $this->postService->updateService($post, $data, $request->file('image'));
             return ApiResponse::success($post, "Post updated successfully", 200);
         } catch (\Exception $th) {
@@ -109,6 +110,8 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         try {
+              $post = Post::findOrFail($id);
+            $this->authorize('delete', $post);
             $deleted = $this->postService->destroyService($id);
             if ($deleted) {
                 // return redirect()->route('home')->with('success', "Deleted successfully");
