@@ -258,8 +258,6 @@ php artisan view:clear
 - Verify SMTP credentials
 - Check firewall settings
 - Ensure queue worker is running if using queues
-<<<<<<< HEAD
-
 
 =======
 - --------------------------------------------
@@ -272,7 +270,6 @@ BolgTask/
 │       └── image.png  ← Your email screenshot
 └── README.md
 ```
->>>>>>> origin/master
 ## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
