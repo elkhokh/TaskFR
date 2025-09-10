@@ -21,10 +21,12 @@ Route::delete('/comments/{comment}', [CommentsController::class, 'destroyComment
 Route::put('/comments/{comment}', [CommentsController::class, 'updateComment'])->name('comments.update');
 
 });
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';
