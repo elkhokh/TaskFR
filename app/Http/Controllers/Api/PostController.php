@@ -12,9 +12,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostsResource;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PostController extends Controller
 {
+    use AuthorizesRequests;
     protected PostService $postService;
 
     public function __construct(PostService $postService)

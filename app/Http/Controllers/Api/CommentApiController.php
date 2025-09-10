@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Models\Comments;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\Request;
+use App\Mail\CommentAddedMail;
 use App\Services\CommentService;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\CommentsResource;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommentApiController extends Controller
 {
+    use AuthorizesRequests;
     protected $commentService;
     public function __construct(CommentService $commentService)
     {
@@ -29,7 +33,15 @@ class CommentApiController extends Controller
                 'content.string' => 'message must be string',
                 'content.max' => 'max of message is 1000 ',
             ]);
+
             $comment = $this->commentService->storeCommentService($request, $post_id);
+
+            // Mail::to($comment->post->user->email)->send(new CommentAddedMail($comment));
+
+            // $owner_post = "yahyaw889@gmail.com";
+            $owner_post = $comment->post->user->email;
+            Mail::to($owner_post)->queue(new CommentAddedMail($comment));
+
             return ApiResponse::success(new CommentsResource($comment), "comment added successfully", 201);
         } catch (\Throwable $th) {
             Log::channel("comments")->error($th->getMessage() . $th->getFile() . $th->getLine());

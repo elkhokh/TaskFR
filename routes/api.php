@@ -17,7 +17,7 @@ Route::post("login", [AuthController::class, "login"]) ->middleware('throttle:5,
 
 Route::middleware("auth:sanctum")->group(function () {
 
-Route::put("updata_profile", [AuthController::class, "updata_profile"]);
+
 Route::post("logout", [AuthController::class, "logout"]);
 
 //posts

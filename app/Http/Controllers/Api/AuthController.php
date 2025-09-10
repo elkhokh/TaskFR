@@ -35,7 +35,7 @@ class AuthController extends Controller
                 ],
             ], 'login successfuly');
         } catch (\Throwable $th) {
-            Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
+            Log::channel("Posts")->error($th->getMessage() . $th->getFile() . $th->getLine());
             return ApiResponse::error("login failed  ", [], 500);
         }
     }
@@ -47,7 +47,7 @@ class AuthController extends Controller
             $request->user()->tokens()->delete();
             return ApiResponse::success([], "logged out successfully ");
         } catch (\Throwable $th) {
-            Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
+            Log::channel("Posts")->error($th->getMessage() . $th->getFile() . $th->getLine());
             return ApiResponse::error("login failed  ", [], 500);
         }
     }
@@ -79,7 +79,7 @@ class AuthController extends Controller
             ], 'User registered successfully', 201);
 
         } catch (\Throwable $th) {
-            Log::channel("user")->error($th->getMessage() . $th->getFile() . $th->getLine());
+            Log::channel("Posts")->error($th->getMessage() . $th->getFile() . $th->getLine());
             return ApiResponse::error("Registration failed", [], 500);
         }
     }

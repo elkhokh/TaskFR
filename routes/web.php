@@ -22,5 +22,4 @@ Route::put('/comments/{comment}', [CommentsController::class, 'updateComment'])-
 
 });
 
-
 require __DIR__.'/auth.php';
