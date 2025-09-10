@@ -4,6 +4,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .blog-image {
+    max-width: 70%; /* بدل 100% */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: inline-block; /* لو عايز تتوسط الصورة */
+}
+        .blog-image {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
@@ -117,8 +124,8 @@
         <main class="row content__page justify-content-center">
             <article class="col-12 col-md-10 col-lg-8 entry format-standard">
                 @if ($post->image)
-                    <div class="media-wrap entry__media text-center mb-4">
-                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="blog-image">
+                    <div class="media-wrap entry__media text-center mb-4 ">
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="blog-image" style="max-width:70%; height:auto;">>
                     </div>
                 @endif
 
