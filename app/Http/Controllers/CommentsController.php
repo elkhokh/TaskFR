@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comments;
 use Illuminate\Http\Request;
+use App\Mail\CommentAddedMail;
 use App\Services\CommentService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CommentsController extends Controller
 {
@@ -28,10 +30,15 @@ class CommentsController extends Controller
                 'content.max' => 'max of message is 1000 ',
             ]);
             $comment = $this->commentService->storeCommentService($request, $post_id);
+
+            // Mail::to($comment->post->user->email)->send(new CommentAddedMail($comment));
+            Mail::to($comment->post->user->email)->queue(new CommentAddedMail($comment));
+
+
             return redirect()->route('posts.show', $comment->post_id)->with('success', 'Comment added successfully!');
         } catch (\Throwable $th) {
             Log::channel("comments")->error($th->getMessage() . $th->getFile() . $th->getLine());
-            return redirect()->back()->with('error', 'Error getting posts');
+            return redirect()->back()->with('error', 'Error store comment');
         }
     }
 

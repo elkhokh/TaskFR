@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\CommentsController;
+use App\Mail\CommentAddedMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommentsController;
+
 
 Route::get('/', [PostController::class, 'home'])->middleware(['auth', 'verified'])->name('home');
 
