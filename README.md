@@ -1,4 +1,4 @@
-# TaskFR - Laravel 12 Application
+# TaskFP - Laravel 12 Application
 
 A modern Laravel 12 application for managing posts and comments with comprehensive features including authentication, email notifications, and RESTful API endpoints.
 
