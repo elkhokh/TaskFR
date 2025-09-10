@@ -24,7 +24,7 @@ class CommentAddedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address("mustafaelkhokhy@gmail.com", "Blog System"),
+            from: new Address("mostafa@gmail.com", "Blog System"),
             subject: "New Comment on Your Post"
         );
     }

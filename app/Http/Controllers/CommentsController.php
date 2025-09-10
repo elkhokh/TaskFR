@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Mail;
 
 class CommentsController extends Controller
 {
-    protected $commentService;
-    public function __construct(CommentService $commentService)
+    // protected $commentService;
+    public function __construct(protected CommentService $commentService)
     {
-        $this->commentService = $commentService;
+        // $this->commentService = $commentService;
     }
 
     public function storeComment(Request $request, $post_id)
@@ -32,8 +32,10 @@ class CommentsController extends Controller
             $comment = $this->commentService->storeCommentService($request, $post_id);
 
             // Mail::to($comment->post->user->email)->send(new CommentAddedMail($comment));
-            Mail::to($comment->post->user->email)->queue(new CommentAddedMail($comment));
 
+            // $owner_post = "yahyaw889@gmail.com";
+            $owner_post = $comment->post->user->email;
+            Mail::to($owner_post)->queue(new CommentAddedMail($comment));
 
             return redirect()->route('posts.show', $comment->post_id)->with('success', 'Comment added successfully!');
         } catch (\Throwable $th) {
