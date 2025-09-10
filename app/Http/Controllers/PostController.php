@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Traits\UploadImage;
+use App\Services\PostService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StorePostRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UpdatePostRequest;
-use App\Services\PostService;
-use App\Traits\UploadImage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PostController extends Controller
 {
 
-    use UploadImage;
+    use UploadImage , AuthorizesRequests  ;
     protected $postService;
     public function __construct(PostService $postService)
     {

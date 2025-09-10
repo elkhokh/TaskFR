@@ -10,9 +10,11 @@ use App\Services\CommentService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommentsController extends Controller
 {
+    use AuthorizesRequests;
     // protected $commentService;
     public function __construct(protected CommentService $commentService)
     {
@@ -53,7 +55,7 @@ class CommentsController extends Controller
             return back()->with('success', 'comment deleted successfully');
         } catch (\Throwable $th) {
             Log::channel("comments")->error($th->getMessage() . $th->getFile() . $th->getLine());
-            return redirect()->back()->with('error', 'Error getting posts');
+            return redirect()->back()->with('error', 'Error update post');
         }
     }
 
@@ -70,7 +72,7 @@ class CommentsController extends Controller
             return back()->with('success', 'updated successfully');
         } catch (\Throwable $th) {
             Log::channel("comments")->error($th->getMessage() . $th->getFile() . $th->getLine());
-            return redirect()->back()->with('error', 'Error getting posts');
+            return redirect()->back()->with('error', 'Error delete post');
         }
     }
 

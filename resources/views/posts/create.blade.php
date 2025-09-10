@@ -124,7 +124,7 @@
                                     <i class="fas fa-cloud-upload-alt"></i>
                                     <p>انقر هنا لرفع الصور أو اسحبها هنا</p>
                                 </label>
-                                <input type="file" id="image_upload" name="imge"  accept="image/*">
+                                <input type="file" id="image_upload" name="image"  accept="image/*">
                                 <div id="image-preview" class="d-flex flex-wrap mt-3"></div>
                                 @error('image')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
