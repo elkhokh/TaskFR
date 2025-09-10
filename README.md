@@ -1,4 +1,4 @@
-# TaskFR - Laravel 12 Application
+# TaskFP - Laravel 12 Application
 
 A modern Laravel 12 application for managing posts and comments with comprehensive features including authentication, email notifications, and RESTful API endpoints.
 
@@ -258,8 +258,21 @@ php artisan view:clear
 - Verify SMTP credentials
 - Check firewall settings
 - Ensure queue worker is running if using queues
+<<<<<<< HEAD
 
 
+=======
+- --------------------------------------------
+## 📁 File Structure:
+```
+Your image is now properly referenced at:
+BolgTask/
+├── public/
+│   └── images/
+│       └── image.png  ← Your email screenshot
+└── README.md
+```
+>>>>>>> origin/master
 ## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
