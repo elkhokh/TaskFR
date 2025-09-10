@@ -259,13 +259,6 @@ php artisan view:clear
 - Check firewall settings
 - Ensure queue worker is running if using queues
 
-📁 File Structure:
-Your image is now properly referenced at:
-BolgTask/
-├── public/
-│   └── images/
-│       └── image.png  ← Your email screenshot
-└── README.md
 
 ## 📝 License
 
