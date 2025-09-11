@@ -17,6 +17,7 @@ class LoginRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+        // return $this->user(['admin','user'])->can('login');
     }
 
     /**
@@ -39,6 +40,7 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
+        //يتأكد إن المستخدم ماعملش محاولات كتير جدًا (Brute Force Protection).
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {

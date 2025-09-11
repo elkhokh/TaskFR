@@ -19,9 +19,22 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-
-        // dd('sanctum');
+    //dd(sanctum());
+// attemp method to check if the user is logged in it depende on credentials like email and password 
+// if the user is logged in it will return true else false 
         try {
+
+            $request->validate([
+                'email' => "required|email",
+                "password" => "required"
+            ]);
+
+        //    $user = User::where('email', $request->email)->first();
+        // // dd($user);
+        //     if (!$user || !Hash::check($request->password, $user->password)) {
+        //         return ApiResponse::error('credentials error', [], 401);
+        //     }
+
             if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 return ApiResponse::error('credentials error', [], 401);
             }
@@ -39,19 +52,24 @@ class AuthController extends Controller
             return ApiResponse::error("login failed  ", [], 500);
         }
     }
+    
     // ************************ logout api *****************************
+
     public function logout(Request $request)
     {
         try {
             // dd($request->user);
-            $request->user()->tokens()->delete();
+            $request->user()->tokens()->delete();                  //delete from all browser
+            // $request->user()->currentAccessToken()->delete();   //delete form one browser
             return ApiResponse::success([], "logged out successfully ");
         } catch (\Throwable $th) {
             Log::channel("Posts")->error($th->getMessage() . $th->getFile() . $th->getLine());
             return ApiResponse::error("login failed  ", [], 500);
         }
     }
-    //register api
+    
+    // ************************ register api *****************************
+
     public function register(Request $request)
     {
         try {

@@ -25,7 +25,7 @@ class StorePostRequest extends FormRequest
             "content" => "required|string",
             'image'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             "title" => ["required" , "string" , "max:255", "unique:posts,title" , function($attribute,$value,$fail){
-                if(str_contains($value,"israel")){
+                if(str_contains($value,"israel")){ //Closure-based Validation Rule
                     $fail("The $attribute cannot contain the word 'israel'");
                 }
             }],
