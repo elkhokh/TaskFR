@@ -20,12 +20,18 @@ class PostsResource extends JsonResource
             "id" => $this->id,
             "title" => $this->title,
             "content" => $this->content,
-            "email" => Auth::user()->email,
-            "user_id" => Auth::user()->id,
-            "name" => Auth::user()->name,
             "image" => $this->whenNotNull($this->image),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
+
+            // "email" => Auth::user()->email,
+            // "user_id" => Auth::user()->id,
+            // "name" => Auth::user()->name,
+            "user" => [
+                "id"    => $this->user->id,
+                "name"  => $this->user->name,
+                "email" => $this->user->email,
+            ]
 
         ];
     }

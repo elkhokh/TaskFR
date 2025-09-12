@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class PostController extends Controller
 {
     use AuthorizesRequests;
+    
     protected PostService $postService;
 
     public function __construct(PostService $postService)
@@ -27,12 +28,15 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function home()
     {
         try {
+
             $posts = $this->postService->homeService();
+            // return ApiResponse::success( PostsCollection::make($posts), "all Posts retrieved successfully", 200);
             return ApiResponse::success( PostsResource::collection($posts), "all Posts retrieved successfully", 200);
-            // return ApiResponse::success($posts, "all Posts retrieved successfully", 200);
+            // return ApiResponse::success(new PostsCollection($posts),"all Posts retrieved successfully",200);
         } catch (\Exception $e) {
             return ApiResponse::error("Failed to retrieve all posts", $e->getMessage(), 500);
         }
@@ -42,7 +46,6 @@ class PostController extends Controller
         try {
             $posts = $this->postService->indexService();
             return ApiResponse::success(PostsResource::collection($posts), " retrieved my posts successfully", 200);
-            // return ApiResponse::success($posts, " retrieved my posts successfully", 200);
         } catch (\Exception $th) {
             return ApiResponse::error("Failed to retrieve all posts", $th->getMessage(), 500);
         }
@@ -59,7 +62,6 @@ class PostController extends Controller
             DB::beginTransaction();
             $post = $this->postService->storeService($data, $request->file('image'));
             DB::commit();
-            // return ApiResponse::success($post, "Post added successfully", 201);
             return ApiResponse::success(new PostsResource($post), "Post added successfully", 201);
 
         } catch (\Exception $th) {
@@ -79,7 +81,6 @@ class PostController extends Controller
         try {
             $post = $this->postService->showService($id);
             return ApiResponse::success(new PostsResource($post), "Post retrieved successfully", 200);
-            // return ApiResponse::success($post, "Post retrieved successfully", 200);
         } catch (\Exception $th) {
             Log::channel('posts')->error($th->getMessage() . $th->getFile() . $th->getLine());
             return ApiResponse::error("Failed show Post", $th->getMessage(), 500);
@@ -88,10 +89,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
+
     public function update(UpdatePostRequest $request, Post $post)
     {
         $data = $request->validated();
@@ -116,13 +114,12 @@ class PostController extends Controller
             $this->authorize('delete', $post);
             $deleted = $this->postService->destroyService($id);
             if ($deleted) {
-                // return redirect()->route('home')->with('success', "Deleted successfully");
                 return ApiResponse::success(null, "Post Deleted successfully", 200);
             }
             return ApiResponse::error("Post could not be deleted", [], 500);
         } catch (\Exception $th) {
             Log::channel("posts")->error($th->getMessage() . $th->getFile() . $th->getLine());
-            return ApiResponse::error("Failed delete Post", $th->getMessage(), 500);
+            return ApiResponse::error("Failed delete Post", [], 500);
         }
     }
 }

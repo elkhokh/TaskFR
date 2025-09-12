@@ -25,11 +25,11 @@ class PostService
         return $user->posts()->latest()->paginate($this->paginate);
     }
 
+    //store post
     public function storeService(array $data, $image = null)
     {
-
         if ($image) {
-            $data['image'] = $this->uploadImage($image, 'posts');
+            $data['image'] = $this->storeImage($image, 'posts');
         }
 
         $data['user_id'] = Auth::id();
@@ -52,15 +52,15 @@ class PostService
     public function updateService(Post $post, array $data, $image = null)
     {
         DB::beginTransaction();
+
         if ($image) {
-            if ($post->image && Storage::disk('public')->exists($post->image)) {
-                Storage::disk('public')->delete($post->image);
-            }
-            $data['image'] = $this->uploadImage($image, 'posts');
+            $data['image'] = $this->updateImage($image, $post->image, 'posts');
         } else {
             $data['image'] = $post->image;
         }
+
         $post->update($data);
+
         DB::commit();
         return $post;
 
@@ -70,9 +70,8 @@ class PostService
     {
         $post = Post::findOrFail($id);
 
-        if ($post->image && Storage::disk('public')->exists($post->image)) {
-            Storage::disk('public')->delete($post->image);
-        }
+        $this->deleteImage($post->image);
+    
         $post->delete();
         return $post;
     }

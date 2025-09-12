@@ -17,7 +17,9 @@ class PostController extends Controller
 {
 
     use UploadImage , AuthorizesRequests  ;
+
     protected $postService;
+
     public function __construct(PostService $postService)
     {
         $this->postService = $postService;
@@ -68,10 +70,8 @@ class PostController extends Controller
         try {
             DB::beginTransaction();
             $post = $this->postService->storeService($data, $request->file('image'));
-            // event(new PostCreatedEvent($post));
             DB::commit();
             return redirect()->route('home')->with('success', "added successfully");
-            //  return to_route("posts.index")->with("success", "Post Created Successfully!");
         } catch (\Exception $th) {
             DB::rollBack();
             Log::channel("Posts")->error($th->getMessage() . $th->getFile() . $th->getLine());
