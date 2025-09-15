@@ -5,6 +5,9 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Interfaces\PostsInterface;
+use App\Repositories\Eloquent\PostsRepository;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(PostsInterface::class, PostsRepository::class);
     }
 
     /**

@@ -32,10 +32,13 @@ class CommentsController extends Controller
                 'content.max' => 'max of message is 1000 ',
             ]);
             $comment = $this->commentService->storeCommentService($request, $post_id);
+            
+            // event(new CommentCreated($comment));
 
             // Mail::to($comment->post->user->email)->send(new CommentAddedMail($comment));
 
             // $owner_post = "yahyaw889@gmail.com";
+            
             $owner_post = $comment->post->user->email;
             Mail::to($owner_post)->queue(new CommentAddedMail($comment));
 

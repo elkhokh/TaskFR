@@ -18,11 +18,11 @@ class PostController extends Controller
 
     use UploadImage , AuthorizesRequests  ;
 
-    protected $postService;
+    // protected $postService;
 
-    public function __construct(PostService $postService)
+    public function __construct( protected PostService $postService)
     {
-        $this->postService = $postService;
+        // $this->postService = $postService;
     }
 
     /**

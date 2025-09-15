@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Post;
@@ -6,74 +7,70 @@ use App\Traits\UploadImage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use App\Repositories\Interfaces\PostsInterface;
 
 class PostService
 {
-
     use UploadImage;
+
     protected int $paginate = 3;
-//show main page
+    protected PostsInterface $postRepository;
+
+    public function __construct(PostsInterface $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     public function homeService()
     {
-        return Post::with('user')->orderBy('id', 'desc')->paginate($this->paginate);
-    }
-//show my posts
-    public function indexService()
-    {
-        $user = auth()->user();
-        return $user->posts()->latest()->paginate($this->paginate);
+        return $this->postRepository->getAll($this->paginate);
     }
 
-    //store post
+    public function indexService()
+    {
+        return $this->postRepository->getByUser(Auth::id(), $this->paginate);
+    }
+
     public function storeService(array $data, $image = null)
     {
         if ($image) {
             $data['image'] = $this->storeImage($image, 'posts');
         }
-
         $data['user_id'] = Auth::id();
-        $post = Post::create($data);
-        // $post = Post::create([
-        //     'title' => $data['title'],
-        //     'content' => $data['content'],
-        //     'user_id' => $data['user_id'],
-        //     'image' => $data['image'] ?? null,
-        // ]);
-        return $post;
+
+        return $this->postRepository->store($data);
     }
 
+    // public function showService($id)
+    // {
+    //     return $this->postRepository->findById($id);
+    // }
     public function showService($id)
     {
-        // $post = Post::with('user')->findOrFail($id);
-        $post = Post::with(['comments.user'])->findOrFail($id);
-        return $post;
+        return Cache::store('redis')->remember("post_{$id}_with_comments", 60, function () use ($id) {
+            return $this->postRepository->findById($id);
+        });
     }
+
     public function updateService(Post $post, array $data, $image = null)
     {
-        DB::beginTransaction();
+        return DB::transaction(function () use ($post, $data, $image) {
+            if ($image) {
+                $data['image'] = $this->updateImage($image, $post->image, 'posts');
+            } else {
+                $data['image'] = $post->image;
+            }
 
-        if ($image) {
-            $data['image'] = $this->updateImage($image, $post->image, 'posts');
-        } else {
-            $data['image'] = $post->image;
-        }
-
-        $post->update($data);
-
-        DB::commit();
-        return $post;
-
+            return $this->postRepository->update($post, $data);
+        });
     }
 
     public function destroyService(int $id)
     {
-        $post = Post::findOrFail($id);
+        $post = $this->postRepository->findById($id);
 
         $this->deleteImage($post->image);
-    
-        $post->delete();
-        return $post;
-    }
 
+        return $this->postRepository->delete($id);
+    }
 }

@@ -33,9 +33,8 @@ class CommentApiController extends Controller
                 'content.string' => 'message must be string',
                 'content.max' => 'max of message is 1000 ',
             ]);
-
             $comment = $this->commentService->storeCommentService($request, $post_id);
-
+            
             // Mail::to($comment->post->user->email)->send(new CommentAddedMail($comment));
 
             // $owner_post = "yahyaw889@gmail.com";

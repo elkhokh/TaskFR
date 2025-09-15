@@ -39,7 +39,7 @@
                                 </tr>
                             </table>
                             <p style="color: #333333; font-size: 16px; line-height: 1.5; margin: 20px 0;">
-                                Thank you for your engagement with our platform.
+                                Thank you 
                             </p>
                             <p style="color: #333333; font-size: 16px; line-height: 1.5; margin: 0;">
                                 Best regards,<br>
@@ -50,10 +50,10 @@
                     <!-- Footer -->
                     <tr>
                         <td style="background-color: #f4f4f4; padding: 20px; text-align: center; color: #666666; font-size: 14px;">
-                            <p style="margin: 0;">&copy; 2025 Your Platform Name. All rights reserved.</p>
-                            <p style="margin: 5px 0;">123 Business Avenue, Suite 100, City, Country</p>
+                            <p style="margin: 0;">&copy; 2025 Your Tanta. All rights reserved.</p>
+                            <p style="margin: 5px 0;">Tanta</p>
                             <p style="margin: 5px 0;">
-                                <a href="#" style="color: #003087; text-decoration: none;">Unsubscribe</a> |
+                                <a href="#" style="color: #003087; text-decoration: none;">01004643861</a> |
                                 <a href="#" style="color: #003087; text-decoration: none;">Contact Us</a>
                             </p>
                         </td>

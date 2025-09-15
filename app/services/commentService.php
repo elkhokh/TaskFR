@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentService{
 
-    public function storeCommentService($request ,$post_id){
+public function storeCommentService($request ,$post_id){
 
 $post = Post::findOrFail($post_id);
     return Comments::create([
@@ -16,6 +16,7 @@ $post = Post::findOrFail($post_id);
             'post_id' => $post->id,
         ]);
     }
+
     public function updateCommentService(){
 
     }
